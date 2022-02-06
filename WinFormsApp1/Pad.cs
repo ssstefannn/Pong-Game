@@ -20,16 +20,18 @@ namespace PongGame
             height = h;
             width = w;
         }
-        public void draw()
+        public void draw(ConsoleColor color)
         {
+            Console.BackgroundColor = color;
             for (int i = 0; i < height; i++)
             {
                 Console.SetCursorPosition(xPos, yPos + i);
                 for (int j = 0; j < width; j++)
                 {
-                    Console.Write("@");
+                    Console.Write(" ");
                 }
             }
+            Console.BackgroundColor = ConsoleColor.Black;
         }
         public void moveUp()
         {
@@ -41,10 +43,28 @@ namespace PongGame
                     Console.Write(" ");
                 }
             }
-            if (yPos <yVel)
-                yPos = 0;
-            else if (yPos>0)
+            if (yPos < yVel)
             {
+                /*for (int i = 20; i < 20 + yPos; i++)
+                {
+                    for(int j = 0; j < width; j++)
+                    {
+                        Console.SetCursorPosition(xPos + j, yPos + i);
+                        Console.Write(" ");
+                    }
+                }*/
+                yPos = 0; 
+            }
+            else if (yPos > 0)
+            {
+                /*for (int i = 0; i < yVel; i++)
+                {
+                    for (int j = 0; j < width; j++)
+                    {
+                        Console.SetCursorPosition(xPos+j,yPos + height - yVel + i);
+                        Console.Write(" ");
+                    }
+                }*/
                 yPos -= yVel;
             }
         }

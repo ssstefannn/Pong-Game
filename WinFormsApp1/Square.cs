@@ -21,6 +21,7 @@ namespace PongGame
         }
         public void draw()
         {
+            Console.BackgroundColor = ConsoleColor.White;
             for (int i = 0; i < size; i++)
             {
                 for (int j = 0; j < size; j++)
@@ -28,7 +29,7 @@ namespace PongGame
                     try
                     {
                         Console.SetCursorPosition(xPos + j, yPos + i);
-                        Console.Write("@");
+                        Console.Write(" ");
                     }
                     catch (Exception e)
                     {
@@ -36,6 +37,7 @@ namespace PongGame
                     }
                 }
             }
+            Console.BackgroundColor = ConsoleColor.Black;
         }
         public bool collidesWith(Pad pad)
         {
@@ -70,6 +72,16 @@ namespace PongGame
             //bounce off top and bottom walls (2)
             else if (xPos <= 0 || xPos + size - 1 >= 249)
             {
+                if (xPos <= 0)
+                {
+                    Program.playerTwoScore++;
+                    Program.incrementPlayerTwo();
+                }
+                else
+                {
+                    Program.playerOneScore++;
+                    Program.incrementPlayerOne();
+                }
                 resetBall();
             }
             if (yPos <= 0 || yPos + size - 1 >= 99)
@@ -84,12 +96,13 @@ namespace PongGame
         public void resetBall()
         {
             Random r = new Random();
-            xPos = 125;
+            
             yPos = r.Next(10, 90);
             //xVel = 3;
             //yVel = 1;
             if (turn)
             {
+                xPos = 130;
                 xVel = 3;
                 if (r.Next(0, 1)==0)
                 {
@@ -102,6 +115,7 @@ namespace PongGame
             }
             else
             {
+                xPos = 115;
                 xVel = -3;
                 if (r.Next(0, 1)==0)
                 {
@@ -117,25 +131,25 @@ namespace PongGame
         public void handleCollision(Pad pad)
         {
             Random r = new Random();
-            if (yPos < pad.yPos)
+            if (yPos < pad.yPos+3)
             {
                 yVel = -1*r.Next(3,5);
-                xVel = xVel > 0 ? -4+yVel/2 : 4-yVel/2;
+                xVel = xVel > 0 ? -5+yVel/2 : 5-yVel/2;
             }
-            else if (yPos > pad.yPos + 15)
+            else if (yPos > pad.yPos + 12)
             {
                 yVel = r.Next(3,5);
-                xVel = xVel > 0 ? -4-yVel/2 : 4+yVel/2;
+                xVel = xVel > 0 ? -5-yVel/2 : 5+yVel/2;
             }
             else if (yPos >= pad.yPos && yPos <= pad.yPos + 9)
             {
                 yVel = -1*r.Next(1,3);
-                xVel = xVel > 0 ? -5+yVel : 5-yVel;
+                xVel = xVel > 0 ? -6+yVel : 6-yVel;
             }
             else if (yPos >= pad.yPos + 10 && yPos <= pad.yPos + 19)
             {
                 yVel = r.Next(1,3);
-                xVel = xVel > 0 ? -5-yVel : 5+yVel;
+                xVel = xVel > 0 ? -6-yVel : 6+yVel;
             }
 
             if (pad.xPos < 150)
